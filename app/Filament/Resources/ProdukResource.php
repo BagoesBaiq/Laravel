@@ -28,13 +28,24 @@ class ProdukResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required()
+                    ->reactive()
                     ->label('Daerah')
                     ->placeholder('Pilih Daerah'),
                 
                 Forms\Components\TextInput::make('nama')
                     ->label('Nama Makanan/Minuman')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(50)
+                    ->unique(
+                        table: 'produks',
+                        column: 'nama',
+                        ignoreRecord: true,
+                        modifyRuleUsing: function(\Illuminate\Validation\Rules\Unique $rule, callable $get) {
+                            return $rule->where('daerah_id', $get('daerah_id'));
+                        }
+                    )
+                    ->reactive()
+                    ->helperText('Nama produk harus unik dalam satu daerah'),
                 
                 Forms\Components\Select::make('kategori')
                     ->options([

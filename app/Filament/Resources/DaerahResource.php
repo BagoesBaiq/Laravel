@@ -37,7 +37,8 @@ class DaerahResource extends Resource
                 Tables\Columns\TextColumn::make('nama_daerah')
                     ->label('Nama Daerah')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->unique(ignoreRecord: true),
                 
                 Tables\Columns\TextColumn::make('produks_count')
                     ->label('Jumlah Produk')
