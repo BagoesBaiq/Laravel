@@ -11,12 +11,26 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\FileUpload;
 
 class ProdukResource extends Resource
 {
     protected static ?string $model = Produk::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Makanan';
+    protected static ?string $modelLabel = 'Makanan';
+    protected static ?string $pluralModelLabel = 'Makanan';
+    
+    protected static ?int $navigationSort = 2;
+        
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+    
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'success';
+    }
 
     public static function form(Form $form): Form
     {
@@ -28,7 +42,7 @@ class ProdukResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required()
-                    ->reactive()
+                    //->reactive()
                     ->label('Daerah')
                     ->placeholder('Pilih Daerah'),
                 
@@ -37,7 +51,7 @@ class ProdukResource extends Resource
                     ->required()
                     ->maxLength(50)
                     ->unique(
-                        table: 'produks',
+                        table: 'makanan',
                         column: 'nama',
                         ignoreRecord: true,
                         modifyRuleUsing: function(\Illuminate\Validation\Rules\Unique $rule, callable $get) {
@@ -58,11 +72,19 @@ class ProdukResource extends Resource
                 Forms\Components\Textarea::make('deskripsi')
                     ->columnSpanFull(),
                 
-                FileUpload::make('gambar')
+                Forms\Components\FileUpload::make('gambar')
                     ->image()
                     ->directory('produk')
+                    ->disk('public')
                     ->visibility('public')
-                    ->required(),
+                    ->maxSize(2048)
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif'])
+                    ->required()
+                    ->columnSpanFull()
+                    ->imageResizeTargetWidth('1920')
+                    ->imageResizeTargetHeight('1080')
+                    ->helperText('Unggah gambar produk (maksimal 2MB, format: JPEG, PNG, GIF)')
+                    ->downloadable(),
                 
                 Forms\Components\RichEditor::make('resep')
                     ->label('Resep')
@@ -87,7 +109,10 @@ class ProdukResource extends Resource
                 
                 Tables\Columns\ImageColumn::make('gambar')
                     ->disk('public')
-                    ->label('Gambar'),
+                    ->width(100)
+                    ->height(100)
+                    ->label('Gambar')
+                    ->square(),
                 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

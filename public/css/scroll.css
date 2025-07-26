@@ -3,25 +3,20 @@
             scroll-behavior: auto;
         }
         
-        .smooth-scroll {
-            scroll-behavior: smooth;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
         }
 
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
+        .custom-scrollbar::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 10px;
         }
 
-        ::-webkit-scrollbar-thumb {
+        .custom-scrollbar::-webkit-scrollbar-thumb {
             background: linear-gradient(45deg, #667eea, #764ba2);
             border-radius: 10px;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #5a67d8, #6b46c1);
         }

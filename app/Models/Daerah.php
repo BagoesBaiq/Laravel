@@ -11,6 +11,8 @@ class Daerah extends Model
 {
     use HasFactory;
 
+    protected $table = 'daerah';
+
     protected $fillable = [
         'nama_daerah',
     ];

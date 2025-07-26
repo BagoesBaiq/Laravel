@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Tambahan ini untu handle CORS
+        $middleware->web(append: [
+            \Illuminate\Http\Middleware\HandleCors::class, // Pastikan middleware ini ada
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -27,12 +27,12 @@ class StoreProdukRequest extends FormRequest
                 'required',
                 'string',
                 'max:50',
-                Rule::unique('produks', 'nama')
+                Rule::unique('makanan', 'nama')
                     ->where(function ($query) {
                         return $query->where('daerah_id', $this->daerah_id);
                     })->ignore($this->route('produk')),
             ],
-            'daerah_id' => 'required|exists:daerahs,id',
+            'daerah_id' => 'required|exists:daerah,id',
             'kategori' => 'required|in:makanan,minuman',
             'gambar' => 'required|image|max:2048', // 2MB max
             'resep' => 'required|string',

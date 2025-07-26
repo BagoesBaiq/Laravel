@@ -16,7 +16,20 @@ class DaerahResource extends Resource
     protected static ?string $model = Daerah::class;
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
     protected static ?string $navigationLabel = 'Daerah';
+    protected static ?string $modelLabel = 'Daerah';
     protected static ?string $pluralLabel = 'Daerah';
+
+    protected static ?int $navigationSort = 1;
+
+        public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+    
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'success';
+    }
 
     public static function form(Form $form): Form
     {
@@ -26,6 +39,7 @@ class DaerahResource extends Resource
                     ->label('Nama Daerah')
                     ->required()
                     ->maxLength(255)
+                    ->unique(ignoreRecord: true)
                     ->placeholder('Contoh: Jawa Timur'),
             ]);
     }
@@ -37,12 +51,11 @@ class DaerahResource extends Resource
                 Tables\Columns\TextColumn::make('nama_daerah')
                     ->label('Nama Daerah')
                     ->searchable()
-                    ->sortable()
-                    ->unique(ignoreRecord: true),
+                    ->sortable(),
                 
-                Tables\Columns\TextColumn::make('produks_count')
+                Tables\Columns\TextColumn::make('makanan_count')
                     ->label('Jumlah Produk')
-                    ->counts('produks'),
+                    ->counts('makanan'),
                 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

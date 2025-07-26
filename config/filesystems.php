@@ -32,8 +32,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app/private'),
-            'serve' => true,
+            'root' => storage_path('app'),
             'throw' => false,
             'report' => false,
         ],
@@ -45,6 +44,13 @@ return [
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
+        ],
+
+        'produk' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/produk'),
+            'url' => env('APP_URL').'/storage/produk',
+            'visibility' => 'public',
         ],
 
         's3' => [

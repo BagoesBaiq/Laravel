@@ -11,13 +11,14 @@ class Produk extends Model
 {
     use HasFactory;
 
+    protected $table = 'makanan';
+
     protected $fillable = [
         'daerah_id',
         'nama',
         'deskripsi',
         'gambar',
         'kategori',
-        'daerah',
         'resep',
     ];
     
@@ -35,11 +36,11 @@ class Produk extends Model
             'required',
             'string',
             'max:50',
-            Rule::unique('produks', 'nama')
+            Rule::unique('makanan', 'nama')
                 ->where('daerah_id', request('daerah_id'))
                 ->ignore($id)
         ],
-        'daerah_id' => 'required|exists:daerahs,id',
+        'daerah_id' => 'required|exists:daerah,id',
         'kategori' => 'required|in:makanan,minuman',
         'gambar' => 'required|image|max:2048', // 2MB max
         'resep' => 'required|string',
@@ -52,6 +53,9 @@ class Produk extends Model
         if ($excludeId) {
             $query->where('id', '!=', $excludeId);
         }
+
+        $query->where('nama', $nama)
+            ->where('daerah_id', $daerahId);
 
         return $query;
     }
