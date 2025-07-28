@@ -21,4 +21,9 @@ class Daerah extends Model
     {
         return $this->hasMany(Produk::class);
     }
+
+    public function makanan()
+    {
+        return $this->produks()->where('kategori', 'Makanan');
+    }
 }
