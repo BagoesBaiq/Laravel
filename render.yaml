@@ -1,10 +1,9 @@
 services:
   - type: web
-    name: laravel-app
-    runtime: node
-    env: php
+    name: katalog
+    runtime: php
     plan: free
-    buildCommand: "./.render-build.sh"
+    buildCommand: "composer install --no-interaction --prefer-dist --optimize-autoloader && npm install && npm run build"
     startCommand: "php artisan serve --host=0.0.0.0 --port=$PORT"
     autoDeploy: true
     region: singapore
@@ -14,4 +13,16 @@ services:
       - key: APP_DEBUG
         value: false
       - key: APP_KEY
-        generateValue: true
+        sync: false
+      - key: APP_URL
+        value: https://katalog.onrender.com
+      - key: DB_CONNECTION
+        value: mysql
+      - key: CACHE_DRIVER
+        value: file
+      - key: SESSION_DRIVER
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: COMPOSER_ALLOW_SUPERUSER
+        value: 1

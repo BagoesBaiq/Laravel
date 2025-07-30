@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -12,7 +12,9 @@ RUN apt-get update && apt-get install -y \
     nodejs \
     npm \
     libzip-dev \
-    libicu-dev
+    libicu-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -26,11 +28,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
+# Set environment variable for composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 # Copy existing application directory
 COPY . .
 
 # Install dependencies
-RUN composer install
+RUN composer install --no-interaction
 RUN npm install
 RUN npm run build
 
