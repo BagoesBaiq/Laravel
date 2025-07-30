@@ -4,7 +4,7 @@ services:
     env: php
     plan: free
     buildCommand: "./.render-build.sh"
-    startCommand: "php -S 0.0.0.0:10000 -t public"
+    startCommand: "php artisan serve --host=0.0.0.0 --port=$PORT"
     envVars:
       - key: APP_ENV
         value: production
