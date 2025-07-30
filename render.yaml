@@ -3,8 +3,10 @@ services:
     name: katalog
     runtime: docker
     plan: free
-    buildCommand: docker build -t katalog .
-    startCommand: docker run -p $PORT:8000 katalog
+    repo: https://github.com/BagoesBaiq/Laravel
+    branch: master
+    dockerfilePath: ./Dockerfile
+    autodeploy: true
     region: singapore
     autoDeploy: true
     envVars:
@@ -52,3 +54,4 @@ services:
 databases:
   - name: katalog-db
     plan: free
+    typer: mysql
