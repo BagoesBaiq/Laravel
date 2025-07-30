@@ -6,7 +6,6 @@ services:
     repo: https://github.com/BagoesBaiq/Laravel
     branch: master
     dockerfilePath: ./Dockerfile
-    autodeploy: true
     region: singapore
     autoDeploy: true
     envVars:
@@ -50,8 +49,3 @@ services:
         value: database
       - key: QUEUE_CONNECTION
         value: database
-
-databases:
-  - name: katalog-db
-    plan: free
-    typer: mysql
