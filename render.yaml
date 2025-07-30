@@ -1,13 +1,15 @@
 services:
   - type: web
     name: katalog
-    runtime: php
+    runtime: docker
     plan: free
-    buildCommand: "composer install --no-interaction --prefer-dist --optimize-autoloader && npm install && npm run build"
-    startCommand: "php artisan serve --host=0.0.0.0 --port=$PORT"
-    autoDeploy: true
+    buildCommand: docker build -t katalog .
+    startCommand: docker run -p $PORT:8000 katalog
     region: singapore
+    autoDeploy: true
     envVars:
+      - key: APP_NAME
+        value: Katalog
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
@@ -18,11 +20,35 @@ services:
         value: https://katalog.onrender.com
       - key: DB_CONNECTION
         value: mysql
-      - key: CACHE_DRIVER
-        value: file
+      - key: DB_HOST
+        fromDatabase:
+          name: katalog-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: katalog-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: katalog-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: katalog-db
+          property: username
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: katalog-db
+          property: password
+      - key: FILESYSTEM_DISK
+        value: public
       - key: SESSION_DRIVER
-        value: file
+        value: database
+      - key: CACHE_DRIVER
+        value: database
       - key: QUEUE_CONNECTION
-        value: sync
-      - key: COMPOSER_ALLOW_SUPERUSER
-        value: 1
+        value: database
+
+databases:
+  - name: katalog-db
+    plan: free
